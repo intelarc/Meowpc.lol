@@ -147,6 +147,32 @@
     color: var(--muted);
   }
 
+  /* small site link pinned at the bottom */
+  .site-link {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 4;
+  }
+
+  .site-link a {
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.15s ease;
+  }
+
+  .site-link a:hover { color: var(--fg); }
+
+  .site-link a:focus-visible {
+    outline: 1px solid var(--muted);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
   @media (max-width: 600px) {
     .container { padding: 56px 20px; }
 
@@ -161,6 +187,9 @@
     .info-icon { width: 18px; height: 18px; }
     .info-title { font-size: 14px; }
     .info-sub { font-size: 12px; }
+
+    .site-link { bottom: 22px; }
+    .site-link a { font-size: 12px; }
   }
 </style>
 </head>
@@ -193,6 +222,10 @@
     </div>
 
   </section>
+
+  <footer class="site-link">
+    <a href="https://meowpcs.com" target="_blank" rel="noopener noreferrer">meowpcs.com</a>
+  </footer>
 
 </main>
 </body>
