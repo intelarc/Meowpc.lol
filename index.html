@@ -1,51 +1,217 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pic</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      width: 100%; height: 100%;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARYANPCS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #060606;
+    --fg: #fafaf7;
+    --muted: rgba(250, 250, 247, 0.5);
+    --faint: rgba(250, 250, 247, 0.3);
+    --border: rgba(250, 250, 247, 0.10);
+    --card: rgba(250, 250, 247, 0.025);
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* soft vignette so it doesn't look like flat black */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 255, 255, 0.05), transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* grain texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: overlay;
+  }
+
+  .container {
+    position: relative;
+    z-index: 4;
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 96px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wordmark {
+    font-family: 'Archivo', -apple-system, sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 15vw, 118px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-align: center;
+    margin-bottom: 56px;
+    color: #f5f5f0;
+    text-shadow: 0 0 80px rgba(255, 255, 255, 0.06);
+    font-kerning: normal;
+    font-feature-settings: "kern" 1;
+  }
+
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* info card: same pill as the old social links, but it's not a link
+     so there's no arrow and no hover/cursor behaviour */
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 17px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--fg);
+  }
+
+  .info-icon {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    opacity: 0.9;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .info-title {
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+
+  .info-sub {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  /* about line pinned near the bottom of the page */
+  .about {
+    position: absolute;
+    bottom: 34px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 4;
+  }
+
+  .about-name {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+
+  .about-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 72px 20px;
     }
-    .image-wrapper {
-      position: relative;
-      display: inline-block;
-      line-height: 0;
+
+    .wordmark {
+      font-size: clamp(46px, 13.5vw, 74px);
+      letter-spacing: -0.03em;
+      margin-bottom: 48px;
     }
-    img {
-      max-width: 100%;
-      max-height: 100vh;
-      display: block;
+
+    .links { gap: 9px; }
+
+    .info {
+      padding: 16px 18px;
+      border-radius: 13px;
     }
-    .credit {
-      position: absolute;
-      bottom: 12px;
-      right: 14px;
-      color: rgba(255, 255, 255, 0.85);
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-shadow:
-        0 1px 4px rgba(0,0,0,0.8),
-        0 0 8px rgba(0,0,0,0.6);
-      pointer-events: none;
-      user-select: none;
-    }
-  </style>
+
+    .info-icon { width: 18px; height: 18px; }
+    .info-title { font-size: 14px; }
+    .info-sub { font-size: 12px; }
+
+    .about { bottom: 26px; }
+    .about-name { font-size: 13px; }
+    .about-sub { font-size: 12px; }
+  }
+</style>
 </head>
 <body>
-  <div class="image-wrapper">
-    <img src="a.png" alt="pic">
-    <span class="credit">@kohaze102 - JAPAN</span>
-  </div>
+
+<main class="container">
+
+  <h1 class="wordmark">ARYANPCS</h1>
+
+  <section class="links" aria-label="About">
+
+    <div class="info">
+      <svg class="info-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5"/></svg>
+      <span class="info-text">
+        <span class="info-title">Bachelor of Computing Systems</span>
+        <span class="info-sub">Level 7 &middot; Networking</span>
+      </span>
+    </div>
+
+    <div class="info">
+      <svg class="info-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13 7 22l5-3 5 3-1.5-9"/></svg>
+      <span class="info-text">
+        <span class="info-title">Diploma in Information Systems</span>
+        <span class="info-sub">Level 5</span>
+      </span>
+    </div>
+
+  </section>
+
+  <footer class="about">
+    <div class="about-name">Aryan Narayan</div>
+    <div class="about-sub">20 &middot; Auckland, New Zealand</div>
+  </footer>
+
+</main>
 </body>
 </html>
- 
